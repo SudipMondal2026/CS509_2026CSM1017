@@ -13,11 +13,9 @@ static void run_coloring(const std::string &path) {
     int V, E;
     AdjList adj;
 
-    // --- Untimed setup: file reading + adjacency-list -> CSR conversion. ---
     read_coloring_adjlist(path, V, E, adj);
     CSRGraph g = adjlist_to_csr(adj);
 
-    // --- Timed region: algorithm only. ---
     auto t1 = Clock::now();
     ColoringResult result = welsh_powell_coloring(g);
     auto t2 = Clock::now();
@@ -42,11 +40,8 @@ static void run_pagerank(const std::string &path) {
     double damping, tolerance;
     int maxIterations;
 
-    // --- Untimed setup: file reading + adjacency-list -> CSR conversion. ---
     read_pagerank_adjlist(path, V, E, adj, damping, tolerance, maxIterations);
     CSRGraph g = adjlist_to_csr(adj);
-
-    // --- Timed region: all iterations of the rank-update loop. ---
     auto t1 = Clock::now();
     PageRankResult result = pagerank(g, damping, tolerance, maxIterations);
     auto t2 = Clock::now();
@@ -55,7 +50,6 @@ static void run_pagerank(const std::string &path) {
     double sumRanks = 0.0;
     for (double r : result.ranks) sumRanks += r;
 
-    // --- Untimed: output printing. ---
     std::cout << "Algorithm: PageRank\n";
     char buf[64];
     std::snprintf(buf, sizeof(buf), "%.6f", damping);
