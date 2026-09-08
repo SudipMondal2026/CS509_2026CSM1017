@@ -13,7 +13,7 @@ MSTResult prim_mst(const CSRGraph &g, int start) {
     std::vector<int> parent(V, -1);
     std::vector<bool> inMST(V, false);
 
-    using PQItem = std::pair<double, int>; // (edge weight into tree, vertex)
+    using PQItem = std::pair<double, int>;
     std::priority_queue<PQItem, std::vector<PQItem>, std::greater<PQItem>> pq;
 
     key[start] = 0.0;
@@ -25,7 +25,7 @@ MSTResult prim_mst(const CSRGraph &g, int start) {
         pq.pop();
         int u = top.second;
         
-        if (inMST[u]) continue; // stale lazy-deleted entry
+        if (inMST[u]) continue;
         inMST[u] = true;
         ++included;
 
