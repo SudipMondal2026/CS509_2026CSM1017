@@ -4,12 +4,6 @@
 #include <sstream>
 #include <stdexcept>
 
-// Reads one non-empty line, skipping blank lines, returning false at EOF.
-// Line-based (rather than raw token-stream) parsing is used deliberately:
-// it lets us check that a vertex's line contains EXACTLY `degree` neighbour
-// tokens and nothing more or less, which a plain `>>` token stream cannot
-// reliably detect (an over- or under-count would otherwise silently borrow
-// tokens from the next line instead of being flagged as invalid).
 static bool next_nonblank_line(std::ifstream &fin, std::string &line) {
     while (std::getline(fin, line)) {
         bool blank = true;
