@@ -23,11 +23,8 @@ PageRankResult pagerank(const CSRGraph &g, double damping, double tolerance, int
     bool converged = false;
 
     for (; iter < maxIterations; ++iter) {
-        // Every vertex simultaneously starts from the (1-d)/N teleport term.
         std::fill(next.begin(), next.end(), baseTerm);
 
-        // Dangling vertices (outdegree 0): distribute their rank evenly
-        // across ALL vertices instead of dividing by zero.
         double danglingSum = 0.0;
         for (int u = 0; u < V; ++u) {
             if (outdeg[u] == 0) danglingSum += prev[u];
@@ -37,9 +34,6 @@ PageRankResult pagerank(const CSRGraph &g, double damping, double tolerance, int
             for (int v = 0; v < V; ++v) next[v] += danglingShare;
         }
 
-        // Push-based update, equivalent to summing over incoming edges but
-        // expressed directly against the CSR (outgoing-edge) representation:
-        // each u distributes PR(u)/outdegree(u) to every out-neighbour v.
         for (int u = 0; u < V; ++u) {
             if (outdeg[u] == 0) continue;
             double share = damping * prev[u] / outdeg[u];
@@ -49,8 +43,6 @@ PageRankResult pagerank(const CSRGraph &g, double damping, double tolerance, int
             }
         }
 
-        // Total change across all vertices (simultaneous update, using the
-        // previous iteration's values only, per Section 2.2).
         double totalChange = 0.0;
         for (int v = 0; v < V; ++v) totalChange += std::fabs(next[v] - prev[v]);
 
@@ -58,7 +50,7 @@ PageRankResult pagerank(const CSRGraph &g, double damping, double tolerance, int
 
         if (totalChange <= tolerance) {
             converged = true;
-            ++iter; // this iteration counts toward the reported total
+            ++iter; 
             break;
         }
     }
