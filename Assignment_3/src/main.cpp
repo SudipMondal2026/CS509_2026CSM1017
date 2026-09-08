@@ -8,9 +8,6 @@
 
 using Clock = std::chrono::high_resolution_clock;
 
-// Prints a weight without scientific notation: as a plain integer when the
-// value is a whole number (the common case for these integer-weighted
-// graphs), otherwise with fixed-point decimals.
 static std::string format_weight(double w) {
     if (std::floor(w) == w) {
         return std::to_string(static_cast<long long>(w));
@@ -38,9 +35,7 @@ static void run_mst(const std::string &path, const std::string &mode) {
     int V, E;
     AdjList adj;
 
-    // --- Untimed setup: file reading + adjacency-list -> CSR conversion. ---
     read_mst_adjlist(path, V, E, adj);
-    // Reused, unmodified CSR-conversion helper from Assignment 2.
     CSRGraph g = adjlist_to_csr(adj, /*weighted=*/true);
 
     bool wantKruskal = (mode == "kruskal" || mode == "both");
