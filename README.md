@@ -6,5 +6,6 @@ Repository for CS509 assignments.
 - `assignment_01/` — Assignment 1 (GEMM + CSR graph representation).
 - `assignment_02/` — Assignment 2 (Bellman Ford + Floyd Waeshall).
 - `assignment_03/` — Assignment 3 (MST- prim's and kruskal's algorithm).
+- `assignment_04/` — Assignment 4 (Vertex Coloring (Graph Coloring) and PageRank).
 
 See each assignment folder's own `readme.md` for build/run instructions.
